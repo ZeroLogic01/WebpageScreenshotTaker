@@ -1,0 +1,154 @@
+﻿<Controls:MetroContentControl
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" 
+    x:Class="WebpageScreenshotTaker.UI.Views.ScreenshotDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d"
+    d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+            </Grid.RowDefinitions>
+
+            <!--Title: Directory to save the files into-->
+            <TextBlock Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="2"
+                 Margin="1" VerticalAlignment="Center"
+                 Text="Directory"
+                 />
+
+            <!--Title: Time of day to take the image-->
+            <TextBlock Grid.Row="0" Grid.Column="2"
+                       Margin="1" VerticalAlignment="Center"
+                 Text="Time Scheduled"
+                 />
+
+            <!--Title: Name of the image-->
+            <TextBlock Grid.Row="0" Grid.Column="3" 
+                       Margin="1" VerticalAlignment="Center"
+                 Text="Name of the Image" />
+
+
+            <!--Title: URL of the image-->
+            <TextBlock Grid.Row="0" Grid.Column="4"
+                      Margin="1" VerticalAlignment="Center"
+                 Text="URL "
+                                 />
+
+        </Grid >
+
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <!--Item control-->
+            <ItemsControl x:Name="icScreenshotDetails" ItemsSource="{Binding List}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0 0 0 6" Grid.Row="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+
+                            <!--Directory to save the image into-->
+                            <TextBox Grid.Row="0" Grid.Column="0" 
+                             VerticalContentAlignment="Center" Margin="1 1 0 1"
+                             IsReadOnly="True"
+                             Text="{Binding Directory, Mode=TwoWay}" />
+
+                            <!--Button to change the directory path-->
+                            <Button Grid.Row="0" Grid.Column="1" 
+                            VerticalContentAlignment="Center" Margin="1"
+                            Content="{Binding Path=DataContext.BtnSelectDirectoryLbl,
+                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    Command="{Binding Path=DataContext.ChangeDirectoryCommand ,                               
+                                RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}"/>
+
+                            <!--Time of day to take the image.-->
+                            <xctk:DateTimeUpDown Grid.Row="0" Grid.Column="2"
+                                VerticalContentAlignment="Center" Margin="1"
+                                                 TextAlignment="Left"
+                                                 Value="{Binding TimeScheduled, UpdateSourceTrigger=LostFocus}"
+                                                 Format="ShortTime" ShowButtonSpinner="False"
+                                                 Kind="Local" 
+                                                 DisplayDefaultValueOnEmptyText="False">
+                                <xctk:DateTimeUpDown.Style>
+                                    <Style TargetType="xctk:DateTimeUpDown">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="BorderBrush" Value="#7F7F7F" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="False">
+                                                <Setter Property="BorderBrush" Value="#CCCCCC" />
+                                            </Trigger>
+                                            <Trigger Property="IsFocused" Value="True">
+                                                <Setter Property="BorderBrush" Value="#000000" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </xctk:DateTimeUpDown.Style>
+
+                            </xctk:DateTimeUpDown>
+
+                            <!--Name of the image-->
+                            <TextBox Grid.Row="0" Grid.Column="3"  
+                            VerticalContentAlignment="Center" Margin="1"
+                             Text="{Binding ImageName, UpdateSourceTrigger=LostFocus}"
+                             />
+
+                            <!--Url of the image-->
+                            <TextBox Grid.Row="0" Grid.Column="4"  
+                             VerticalContentAlignment="Center" Margin="1"
+                             Text="{Binding URL, UpdateSourceTrigger=LostFocus}"
+                             />
+
+                            <!--Delete button-->
+                            <Button Grid.Row="0" Grid.Column="5" Content="X"
+                                    VerticalAlignment="Stretch" Margin="1"
+                                    Style="{StaticResource BtnDeleteItemStyle}" 
+                                    Command="{Binding Path=DataContext.DeleteScreenshotDetailsCommand ,
+                                RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                    CommandParameter="{Binding}"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button  Width="200" Margin="4" Grid.Row="2"
+                Content="{Binding BtnAddNewLbl}"
+                Command="{Binding Path=NewScreenshotCommand}"
+                />
+
+    </Grid>
+
+</Controls:MetroContentControl>
