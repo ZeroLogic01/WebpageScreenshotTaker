@@ -8,4 +8,9 @@ A C# WPF (MVVM & Prism) desktop application and Windows Service for automated we
 - **Windows Service** – Runs in the background to ensure timely captures.
 - **SQLite Database** – Shared storage for configuration and logs.
 
+## Setup
+To run the application, the `url2png` API and private key must be set up as environment variables with these names:
+- `url2pngAPIKey`
+- `url2pngPrivateKey`
+
 Built with **C#**, **WPF (MVVM & Prism)**, and **SQLite**.
